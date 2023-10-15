@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_125fb56" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1ky8rtg">
+    <bpmn:participant id="Participant_00s0bbq" name="Recommendation Reminder" processRef="Recommendation_Reminder" />
+    <bpmn:participant id="Participant_1714fk8" name="Recommendation Service" />
+    <bpmn:participant id="Participant_1g5fwy9" name="Custom Worker" />
+    <bpmn:participant id="Participant_1stmj1k" name="E-Mail-Service" />
+    <bpmn:participant id="Participant_1qa878y" name="Custom GPT Worker" />
+    <bpmn:messageFlow id="Flow_09y9dog" sourceRef="Participant_1714fk8" targetRef="StartEvent_1" />
+    <bpmn:messageFlow id="Flow_1k0zr96" sourceRef="Activity_0rgkgqd" targetRef="Participant_1g5fwy9" />
+    <bpmn:messageFlow id="Flow_0qzezmy" sourceRef="Participant_1g5fwy9" targetRef="Activity_0rgkgqd" />
+    <bpmn:messageFlow id="Flow_1i8o0x8" sourceRef="Participant_1g5fwy9" targetRef="Participant_1stmj1k" />
+    <bpmn:messageFlow id="Flow_17ste6v" sourceRef="Activity_0ipfqtd" targetRef="Participant_1qa878y" />
+    <bpmn:messageFlow id="Flow_1nz60v9" sourceRef="Participant_1qa878y" targetRef="Activity_0ipfqtd" />
+    <bpmn:textAnnotation id="TextAnnotation_17oe1uq">
+      <bpmn:text>Copy send mail from checkoutservice</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_16ra9c0" sourceRef="Participant_1g5fwy9" targetRef="TextAnnotation_17oe1uq" />
+    <bpmn:textAnnotation id="TextAnnotation_13dhwx5">
+      <bpmn:text>Use C7 REST-Connector as base?</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_14x3ib2" sourceRef="Participant_1qa878y" targetRef="TextAnnotation_13dhwx5" />
+  </bpmn:collaboration>
+  <bpmn:process id="Recommendation_Reminder" name="Recommendation Reminder" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Recommendation generated">
+      <bpmn:outgoing>Flow_018umo8</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1tt6dau" messageRef="Message_0cpnpo0" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_11b4rrk" name="Recommendation reminder send">
+      <bpmn:incoming>Flow_12kvdn1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_0rgkgqd" name="Send Mail">
+      <bpmn:incoming>Flow_14fkmhm</bpmn:incoming>
+      <bpmn:outgoing>Flow_12kvdn1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0ipfqtd" name="Genrerate Mail text" camunda:type="external" camunda:topic="sendMail">
+      <bpmn:incoming>Flow_018umo8</bpmn:incoming>
+      <bpmn:outgoing>Flow_14fkmhm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_018umo8" sourceRef="StartEvent_1" targetRef="Activity_0ipfqtd" />
+    <bpmn:sequenceFlow id="Flow_12kvdn1" sourceRef="Activity_0rgkgqd" targetRef="Event_11b4rrk" />
+    <bpmn:sequenceFlow id="Flow_14fkmhm" sourceRef="Activity_0ipfqtd" targetRef="Activity_0rgkgqd" />
+  </bpmn:process>
+  <bpmn:message id="Message_0cpnpo0" name="recommendation_generated" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ky8rtg">
+      <bpmndi:BPMNShape id="Participant_00s0bbq_di" bpmnElement="Participant_00s0bbq" isHorizontal="true">
+        <dc:Bounds x="160" y="202" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ihvmwb_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="239" y="309" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="214" y="352" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11b4rrk_di" bpmnElement="Event_11b4rrk">
+        <dc:Bounds x="652" y="309" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="627" y="352" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02gi9ch_di" bpmnElement="Activity_0rgkgqd">
+        <dc:Bounds x="490" y="287" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ioub96_di" bpmnElement="Activity_0ipfqtd">
+        <dc:Bounds x="330" y="287" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_018umo8_di" bpmnElement="Flow_018umo8">
+        <di:waypoint x="275" y="327" />
+        <di:waypoint x="330" y="327" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12kvdn1_di" bpmnElement="Flow_12kvdn1">
+        <di:waypoint x="590" y="327" />
+        <di:waypoint x="652" y="327" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14fkmhm_di" bpmnElement="Flow_14fkmhm">
+        <di:waypoint x="430" y="327" />
+        <di:waypoint x="490" y="327" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_0n9u6ix_di" bpmnElement="Participant_1714fk8" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1vi3ckb" bpmnElement="Participant_1g5fwy9" isHorizontal="true">
+        <dc:Bounds x="390" y="580" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1hcl8xr" bpmnElement="Participant_1stmj1k" isHorizontal="true">
+        <dc:Bounds x="390" y="690" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1m58cyl" bpmnElement="Participant_1qa878y" isHorizontal="true">
+        <dc:Bounds x="180" y="480" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_17oe1uq_di" bpmnElement="TextAnnotation_17oe1uq">
+        <dc:Bounds x="740" y="587" width="140" height="45" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_13dhwx5_di" bpmnElement="TextAnnotation_13dhwx5">
+        <dc:Bounds x="180" y="570" width="130" height="45" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_16ra9c0_di" bpmnElement="Association_16ra9c0">
+        <di:waypoint x="690" y="605" />
+        <di:waypoint x="740" y="604" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_14x3ib2_di" bpmnElement="Association_14x3ib2">
+        <di:waypoint x="302" y="540" />
+        <di:waypoint x="274" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09y9dog_di" bpmnElement="Flow_09y9dog">
+        <di:waypoint x="257" y="140" />
+        <di:waypoint x="257" y="309" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k0zr96_di" bpmnElement="Flow_1k0zr96">
+        <di:waypoint x="510" y="367" />
+        <di:waypoint x="510" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qzezmy_di" bpmnElement="Flow_0qzezmy">
+        <di:waypoint x="570" y="580" />
+        <di:waypoint x="570" y="367" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i8o0x8_di" bpmnElement="Flow_1i8o0x8">
+        <di:waypoint x="540" y="640" />
+        <di:waypoint x="540" y="690" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17ste6v_di" bpmnElement="Flow_17ste6v">
+        <di:waypoint x="350" y="367" />
+        <di:waypoint x="350" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nz60v9_di" bpmnElement="Flow_1nz60v9">
+        <di:waypoint x="400" y="480" />
+        <di:waypoint x="400" y="367" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

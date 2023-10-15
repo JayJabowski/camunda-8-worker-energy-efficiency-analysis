@@ -1,0 +1,15 @@
+camunda8GoConsoleWorker:
+  camunda8GoConsoleWorker:
+    env:
+      gatewayAddress: camunda-platform-zeebe-gateway:26500
+    image:
+      repository: enviteconsulting/camunda-8-go-console-worker
+      tag: 0.0.2
+    imagePullPolicy: IfNotPresent
+  replicas: 1
+kubernetesClusterDomain: cluster.local
+service:
+  ports:
+  - port: 8082
+    targetPort: 8082
+  type: NodePort

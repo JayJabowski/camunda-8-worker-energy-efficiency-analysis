@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "console-worker-chart.fullname" . }}-camunda-8-go-console-worker
+  labels:
+  {{- include "console-worker-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.camunda8GoConsoleWorker.replicas }}
+  selector:
+    matchLabels:
+      app: camunda-8-go-console-worker
+    {{- include "console-worker-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: camunda-8-go-console-worker
+      {{- include "console-worker-chart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: GATEWAY_ADDRESS
+          value: {{ quote .Values.camunda8GoConsoleWorker.camunda8GoConsoleWorker.env.gatewayAddress
+            }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.camunda8GoConsoleWorker.camunda8GoConsoleWorker.image.repository
+          }}:{{ .Values.camunda8GoConsoleWorker.camunda8GoConsoleWorker.image.tag | default
+          .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.camunda8GoConsoleWorker.camunda8GoConsoleWorker.imagePullPolicy
+          }}
+        name: camunda-8-go-console-worker
+        resources: {}
