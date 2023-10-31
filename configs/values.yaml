@@ -182,7 +182,7 @@ server:
     scrape_timeout: 10s
     ## How frequently to evaluate rules
     ##
-    evaluation_interval: 1m
+    evaluation_interval: 3m
   ## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#remote_write
   ##
   remoteWrite: []
@@ -1110,6 +1110,18 @@ prometheus-node-exporter:
 
   containerSecurityContext:
     allowPrivilegeEscalation: false
+
+## hostRootFsMount
+# Mount the node's root file system (/) at /host/root in the container
+# Defines how new mounts in existing mounts on the node or in the container
+  # are propagated to the container or node, respectively. Possible values are
+  # None, HostToContainer, and Bidirectional. If this field is omitted, then
+  # None is used. More information on:
+  # https://kubernetes.io/docs/concepts/storage/volumes/#mount-propagation
+  hostRootFsMount:
+    enabled: false
+    # mountPropagation: HostToContainer
+
 
 ## pprometheus-pushgateway sub-chart configurable values
 ## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-pushgateway
