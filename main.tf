@@ -30,7 +30,7 @@ module "kepler" {
 
 module "kind" {
   source        = "./modules/kind"
-  create_module = true
-  set_kubecfg   = true
+  create_module = false
+  set_kubecfg   = false
   kube_config = var.kube_config
 }
