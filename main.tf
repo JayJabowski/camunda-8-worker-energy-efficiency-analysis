@@ -34,3 +34,10 @@ module "kind" {
   set_kubecfg   = false
   kube_config = var.kube_config
 }
+
+module "worker" {
+  source        = "./modules/worker"
+  namespace     = var.worker-namespace
+  create_module = true
+  depends_on    = [kubernetes_namespace.worker-namespace, module.camunda8]
+}

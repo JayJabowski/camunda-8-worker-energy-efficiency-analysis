@@ -42,3 +42,8 @@ variable "app-namespace" {
   type = string
   default = "camunda8"
 }
+
+variable "worker-namespace" {
+  type= string
+  default = "worker"
+}

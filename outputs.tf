@@ -15,5 +15,5 @@ output "region" {
 
 output "cluster_name" {
   description = "Kubernetes Cluster Name"
-  value       = "kind-kind"
+  value       = var.create_kind ? "kind-kind" : null
 }

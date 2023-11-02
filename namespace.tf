@@ -12,3 +12,10 @@ resource "kubernetes_namespace" "measurement-namespace" {
 
   depends_on = [ module.kind ]
 }
+
+resource "kubernetes_namespace" "worker-namespace" {
+  metadata {
+    name = var.worker-namespace
+  }
+  depends_on = [ module.kind ]
+}
