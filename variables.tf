@@ -47,3 +47,8 @@ variable "worker-namespace" {
   type= string
   default = "worker"
 }
+
+variable "docker-registry-namespace" {
+  type= string
+  default = "docker-registry"
+}

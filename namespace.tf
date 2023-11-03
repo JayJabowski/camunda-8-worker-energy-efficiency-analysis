@@ -19,3 +19,10 @@ resource "kubernetes_namespace" "worker-namespace" {
   }
   depends_on = [ module.kind ]
 }
+
+resource "kubernetes_namespace" "docker-registry-namespace" {
+  metadata {
+    name = var.docker-registry-namespace
+  }
+  depends_on = [ module.kind ]
+}
