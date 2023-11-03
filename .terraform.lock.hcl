@@ -5,6 +5,7 @@ provider "registry.terraform.io/hashicorp/helm" {
   version     = "2.4.1"
   constraints = "2.4.1"
   hashes = [
+    "h1:Gqwrr+yKWR79esN39X9eRCddxMNapmaGMynLfjrUJJo=",
     "h1:aFvUq5HOEwFV/3e7DGU45zDf6j2SThDRjaCAeY2Qfss=",
     "h1:eh+hK4L6fSBZ0pjozJ18H2rTRiXYHFrqRS6b1wquwNc=",
     "zh:07517b24ea2ce4a1d3be3b88c3efc7fb452cd97aea8fac93ca37a08a8ec06e14",
@@ -23,9 +24,10 @@ provider "registry.terraform.io/hashicorp/helm" {
 
 provider "registry.terraform.io/hashicorp/kubernetes" {
   version     = "2.10.0"
-  constraints = ">= 2.10.0, 2.10.0"
+  constraints = "2.10.0"
   hashes = [
     "h1:/sKrrcmRbogZONzmqf4CG/591MZu0exvwicaG+2CxLw=",
+    "h1:HGCh+b5R/yytVhuJoAMipLJb2wlTwNHlv3MiyHYBwzg=",
     "zh:0b011e77f02bc05194062c0a39f321a4f1bea0bae61787b0c1f5808f6efb2a26",
     "zh:288ad46e240c5d1218909a9100ca8bd2197c8615558bbe7b393ba35877d5e4f0",
     "zh:3e5554791ed103b6190efebe332fd3722796e6a59cf081f87ef1debb4e0b6ae3",
@@ -44,6 +46,7 @@ provider "registry.terraform.io/hashicorp/kubernetes" {
 provider "registry.terraform.io/hashicorp/null" {
   version = "3.2.1"
   hashes = [
+    "h1:FbGfc+muBsC17Ohy5g806iuI1hQc4SIexpYCrQHQd8w=",
     "h1:vUW21lLLsKlxtBf0QF7LKJreKxs0CM7YXGzqW1N/ODY=",
     "zh:58ed64389620cc7b82f01332e27723856422820cfd302e304b5f6c3436fb9840",
     "zh:62a5cc82c3b2ddef7ef3a6f2fedb7b9b3deff4ab7b414938b08e51d6e8be87cb",
@@ -66,6 +69,7 @@ provider "registry.terraform.io/justenwalker/kind" {
   hashes = [
     "h1:a5c0InZQ+FwRTiCC010sOAi/GP3rtEgrPAwUz9p48rw=",
     "h1:baXV01ZJVOOjBATh6xLUAqW/pwQ4b2gO/pMb2iBaF7k=",
+    "h1:zB6qY+iosi6Jy35KreBr6eJdv36dgE1mlcdrpb/wNJU=",
     "zh:09717f35c8b18d6aae5de21cc72421e9903337cd069da3b6619b290615ff114a",
     "zh:0e2efabd4f55b5973cd3a84367ef85dac4652ef4c7848cac0eedd477748ae709",
     "zh:1cee919ae076f3aabd6e034f065097cf9b6549a7b8cc35a99b6e611edd553ec5",
@@ -88,6 +92,7 @@ provider "registry.terraform.io/tehcyx/kind" {
   constraints = "0.2.0"
   hashes = [
     "h1:Z2lY9m048bEF8U63DYw0wRqUxqhr5FZ7NvcAMNd8aXw=",
+    "h1:vJ3Ge3x4KZRVzZHcW8kBolUQQEdEKLbm2zw5k5fhPUs=",
     "zh:21f5b71227106d04fc18d2d545bf688ae33efd160bb96f2aa894ae7859afc2e3",
     "zh:28daa5fd6b9d4f797e6aa36a2e14f9d53a9ac485c932bceca9c8d078c1957d7d",
     "zh:2c1e4cce4402916aa6948a77f23088b525e7c8222113b84f679b95f1c2b353f7",
