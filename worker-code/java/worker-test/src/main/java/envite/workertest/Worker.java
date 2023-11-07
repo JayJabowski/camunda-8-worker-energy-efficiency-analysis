@@ -16,4 +16,13 @@ public class Worker{
     public void workerTestGateway(final ActivatedJob job){
         consolePrintWorker(job);
     }
+
+    @JobWorker(type = "timedPrintWorker")
+    public void timedConsolePrintWorker(final ActivatedJob job){
+
+        final int count = (int) job.getVariablesAsMap().get("count");
+        System.out.println("Current Count is: "+count);
+
+        
+    }
 }
