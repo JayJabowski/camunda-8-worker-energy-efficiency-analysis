@@ -52,3 +52,8 @@ variable "docker-registry-namespace" {
   type= string
   default = "docker-registry"
 }
+
+variable "measuring-endpoints-namespace" {
+  type= string
+  default = "measuring-endpoints"
+}

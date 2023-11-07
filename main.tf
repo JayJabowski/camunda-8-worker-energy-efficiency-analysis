@@ -47,3 +47,9 @@ module "Docker-Registry" {
   namespace     = var.docker-registry-namespace
   create_module = false
 }
+
+module "Measuring-Endpoints" {
+  source        = "./modules/measuring-endpoints"
+  namespace     = var.measuring-endpoints-namespace
+  create_module = true
+}

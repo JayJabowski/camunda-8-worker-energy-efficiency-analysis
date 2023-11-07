@@ -26,3 +26,10 @@ resource "kubernetes_namespace" "docker-registry-namespace" {
   }
   depends_on = [ module.kind ]
 }
+
+resource "kubernetes_namespace" "measuring-endpoints-namespace" {
+  metadata {
+    name = var.measuring-endpoints-namespace
+  }
+  depends_on = [ module.kind ]
+}
