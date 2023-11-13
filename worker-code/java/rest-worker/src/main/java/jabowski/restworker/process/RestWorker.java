@@ -18,9 +18,11 @@ public class RestWorker {
     @Autowired
     RestCallApi api;
 
+    int a = 5;
+
     @Autowired
     private ZeebeClientLifecycle client;
-        
+    
     @JobWorker(type= "fetch-test-json")
     public void fetchTestJSON(@VariablesAsType ProcessVariables variables, final ActivatedJob job){
         String response = api.getTestJSON();

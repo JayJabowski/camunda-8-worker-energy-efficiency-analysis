@@ -1,4 +1,4 @@
-package jabowski.restworker.rest;
+package jabowski.restworkerjava.rest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
