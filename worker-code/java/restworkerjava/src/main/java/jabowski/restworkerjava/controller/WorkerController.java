@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.ZeebeClientBuilder;
 import io.camunda.zeebe.client.api.worker.JobHandler;
-import jabowski.restworkerjava.config.updateableWorkerWrapper;
+import jabowski.restworkerjava.worker.updateableWorkerWrapper;
 
 @Component
 public class WorkerController {

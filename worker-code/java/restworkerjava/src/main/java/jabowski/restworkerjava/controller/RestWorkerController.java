@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.eventbus.EventBus;
 
-import jabowski.restworkerjava.config.updateableWorkerWrapper;
 import jabowski.restworkerjava.events.ConfigUpdateEvent;
+import jabowski.restworkerjava.worker.updateableWorkerWrapper;
 
 @RestController
 public class RestWorkerController {
