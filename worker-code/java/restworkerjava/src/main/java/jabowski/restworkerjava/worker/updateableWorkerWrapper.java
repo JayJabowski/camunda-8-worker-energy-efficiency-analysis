@@ -1,4 +1,4 @@
-package jabowski.restworkerjava.config;
+package jabowski.restworkerjava.worker;
 
 import java.time.Duration;
 import java.util.Scanner;
