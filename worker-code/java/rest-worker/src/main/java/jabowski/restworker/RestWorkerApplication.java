@@ -27,8 +27,6 @@ public class RestWorkerApplication implements CommandLineRunner {
 	@Autowired
 	private ZeebeClientLifecycle client;
 
-
-
 	@Override
 	public void run(String... args) throws Exception {
 

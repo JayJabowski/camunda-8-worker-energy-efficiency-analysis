@@ -6,30 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
 
+import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import io.camunda.zeebe.spring.client.EnableZeebeClient;
-import io.camunda.zeebe.spring.client.config.ZeebeClientStarterAutoConfiguration;
-import io.camunda.zeebe.spring.client.lifecycle.ZeebeClientLifecycle;
+import io.camunda.zeebe.spring.client.annotation.Deployment;
 
 @SpringBootApplication
-@EnableZeebeClient
-@Import(ZeebeClientStarterAutoConfiguration.class)
+@Deployment(resources = "classpath*:**/*.bpmn")
 public class LoadControllerApplication implements CommandLineRunner {
-
-	//Configure hard-coded benchmark parameters here
-	//TODO: Have parameters adjustable through API
-	private final int SLEEP_DURATION = 5; //sleep duration in seconds
-	private final String PROCESS_NAME = "benchmark-small";
 
 	private int counter = 0;
 
 	private final static Logger LOG = LoggerFactory.getLogger(LoadControllerApplication.class);
 
 	@Autowired
-	ZeebeClientLifecycle client;
+	ZeebeClient client;
 
+	@Autowired
+	LoadConfig config;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LoadControllerApplication.class, args);
@@ -39,16 +33,16 @@ public class LoadControllerApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		while(true){
-			final ProcessInstanceEvent event = 
-			client
-			.newCreateInstanceCommand()
-			.bpmnProcessId(PROCESS_NAME)
-			.latestVersion()
-			.send()
-			.join();
+			ProcessInstanceEvent event = 
+				client
+					.newCreateInstanceCommand()
+					.bpmnProcessId(config.getProcessName())
+					.latestVersion()
+					.send()
+					.join();
 			LOG.info("Started Instance "+ counter++ +" using "+event.getBpmnProcessId()+", "+event.getProcessInstanceKey());
 
-			Thread.sleep(SLEEP_DURATION * 1000);
+			Thread.sleep(config.getSleepDuration() * 1000);
 		}
 
 		 

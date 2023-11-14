@@ -1,27 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "worker.fullname" . }}
+  name: {{ include "load-controller.fullname" . }}
   labels:
-    {{- include "worker.labels" . | nindent 4 }}
+    {{- include "load-controller.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: camunda-8-print-worker
+      app: load-controller
   template:
     metadata:
       labels:
-        app: camunda-8-print-worker
+        app: load-controller
     spec:
       containers:
       - env:
         - name: GATEWAY_ADDRESS
-          value: {{ quote .Values.container.env.gatewayAddress}}
+          value: {{ quote .Values.container.env.gatewayAddress | default }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain}}
+        - name: PROCESS_NAME
+          value: {{ quote .Values.processname}}
+        - name: SLEEP_DURATION
+          value: {{ quote .Values.sleepduration}}
         - name: TEST_RESPONDER_ADDRESS
-          value: {{ quote .Values.container.env.testResponderAddress}}
+          value: {{ quote .Values.container.env.testresponderaddress}}
+
         name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}

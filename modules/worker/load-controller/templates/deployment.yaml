@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "load-controller.fullname" . }}
+  labels:
+    {{- include "load-controller.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: load-controller
+  template:
+    metadata:
+      labels:
+        app: load-controller
+    spec:
+      containers:
+      - env:
+        - name: GATEWAY_ADDRESS
+          value: {{ quote .Values.container.env.gatewayAddress | default }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain}}
+        - name: PROCESS_NAME
+          value: {{ quote .Values.processname}}
+        - name: SLEEP_DURATION
+          value: {{ quote .Values.sleepduration}}
+
+        name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources: {}

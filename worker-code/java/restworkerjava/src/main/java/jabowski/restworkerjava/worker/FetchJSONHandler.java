@@ -1,17 +1,19 @@
 package jabowski.restworkerjava.worker;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.worker.JobClient;
 import io.camunda.zeebe.client.api.worker.JobHandler;
-import jabowski.restworkerjava.controller.WorkerController;
 import jabowski.restworkerjava.rest.RestCallApi;
 
+@Component
 public class FetchJSONHandler implements JobHandler{
 
-    @Autowired
-    WorkerController controller;
+    private final static Logger LOG = LoggerFactory.getLogger(FetchJSONHandler.class);
 
     @Autowired
     RestCallApi api;
@@ -19,7 +21,11 @@ public class FetchJSONHandler implements JobHandler{
     @Override
     public void handle(JobClient client, ActivatedJob job) throws Exception {
         
+        LOG.info("Handling: " + job + " with " + client + "\n");
+
         String res = api.getTestJSON();
+
+        LOG.info("Received: "+res);
                     
         System.out.println(job);
         client
@@ -29,4 +35,4 @@ public class FetchJSONHandler implements JobHandler{
 
     }
 
-    }
+}
