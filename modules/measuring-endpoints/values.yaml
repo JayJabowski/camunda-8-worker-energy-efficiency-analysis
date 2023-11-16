@@ -9,13 +9,14 @@ DeploymentName: test-responder
 
 image:
   repository: jabowski/test-responder
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.1.0"
+  tag: "v0.1.1"
 
 
 podAnnotations: {}
 podLabels: {}
+
 
 podSecurityContext: {}
   # fsGroup: 2000

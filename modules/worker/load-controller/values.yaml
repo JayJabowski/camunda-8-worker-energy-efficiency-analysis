@@ -7,19 +7,19 @@ kubernetesClusterDomain: cluster.local
 
 #Load-Controller Config
 #TODO: Refactor this
-processname: benchmark-small.bpmn
-sleepduration: 2 
+processname: benchmark_small
+sleepduration: 1
+instancecount: 100 
 
 container:
   env: 
     gatewayAddress: camunda-platform-zeebe-gateway.camunda8:26500
 
-
 image:
   repository: jabowski/load-controller
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.1.0
+  tag: v0.1.2
 
 service:
   type: ClusterIP

@@ -1,16 +1,13 @@
-package jabowski.restworkerjava;
+package jabowski.restworkerspring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestworkerjavaApplicationTests {
+class RestworkerspringApplicationTests {
 
-	/*
-	 * 
-	 @Test
-	 void contextLoads() {
+	@Test
+	void contextLoads() {
 	}
-	*/
 
 }

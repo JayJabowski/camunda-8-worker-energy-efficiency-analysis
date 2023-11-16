@@ -6,9 +6,9 @@ replicaCount: 1
 kubernetesClusterDomain: cluster.local
 
 workerconfig:
-  maxjobsactive: 24
-  pollinterval: 15
-  timeout: 60
+  maxjobsactive: 16
+  pollinterval: 1
+  timeout: 30
 
 container:
   env: 
@@ -16,12 +16,14 @@ container:
     testResponderAddress: measuring-endpoints.measuring-endpoints.svc.cluster.local:8090
 
 image:
-  repository: jabowski/restworkerjava
+  repository: jabowski/rest-worker-java
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.1.0
+  tag: v0.1.2
 
 service:
   type: ClusterIP
   port: 8080
+
+  
 

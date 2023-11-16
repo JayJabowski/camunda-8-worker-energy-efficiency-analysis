@@ -36,10 +36,11 @@ module "kind" {
 }
 
 module "worker" {
-  source        = "./modules/worker"
-  namespace     = var.worker-namespace
-  create_module = true
-  depends_on    = [kubernetes_namespace.worker-namespace, module.camunda8]
+  source                = "./modules/worker"
+  namespace             = var.worker-namespace
+  create_module         = true
+  start_load_controller = true
+  depends_on            = [kubernetes_namespace.worker-namespace, module.camunda8]
 }
 
 module "Docker-Registry" {

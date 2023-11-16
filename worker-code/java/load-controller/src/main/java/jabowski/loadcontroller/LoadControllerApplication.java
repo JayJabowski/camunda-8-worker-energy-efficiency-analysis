@@ -9,10 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import io.camunda.zeebe.spring.client.annotation.Deployment;
 
 @SpringBootApplication
-@Deployment(resources = "classpath*:**/*.bpmn")
 public class LoadControllerApplication implements CommandLineRunner {
 
 	private int counter = 0;
@@ -32,7 +30,11 @@ public class LoadControllerApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		while(true){
+		while(	
+			counter < config.getCount()
+			||
+			config.getCount() < 0 // run indefinitely if env INSTANCE_COUNT set to -1
+			){
 			ProcessInstanceEvent event = 
 				client
 					.newCreateInstanceCommand()
@@ -44,10 +46,6 @@ public class LoadControllerApplication implements CommandLineRunner {
 
 			Thread.sleep(config.getSleepDuration() * 1000);
 		}
-
-		 
-		
-
 	}
 
 }

@@ -6,9 +6,8 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import com.google.common.eventbus.Subscribe;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.worker.JobHandler;
@@ -16,31 +15,25 @@ import io.camunda.zeebe.client.api.worker.JobWorker;
 import jabowski.restworkerjava.events.ConfigUpdateEvent;
 import lombok.NoArgsConstructor;
 
-@Component
+@Configuration
 @NoArgsConstructor
 public class updateableWorkerWrapper {
 
-    private Long timeout = 1000 * 120L; // time to keep a poll open
-    private Long pollInterval = 1000 * 20L; //poll interval in milliseconds
-    private Integer maxJobsActive = 32; // maximum number of open jobs
+    @Value("${timeout:60000L}")
+    private Long timeout; // time to keep a poll open
+
+    @Value("${POLL_INTERVAL:2}")
+    private Long pollInterval; //poll interval in seconds
+    
+    @Value("${max.jobs.active:24}") 
+    private Integer maxJobsActive; // maximum number of open jobs
+
     private JobHandler jobHandler; // Name of the class to be created as a handler eg "FetchJSONHandler.class"
     private JobWorker worker; // reference to actual worker
     private String jobType; 
 	private	ZeebeClient client;
 
     private final static Logger LOG = LoggerFactory.getLogger(updateableWorkerWrapper.class);
-
-    public updateableWorkerWrapper(
-        @Value("${default.max.jobs.active}") Integer maxJobsActive, 
-        @Value("${default.poll.interval}") Long pollInterval,
-        @Value("${default.timeout}") Long timeout){
-
-            this.maxJobsActive = maxJobsActive;
-            this.pollInterval = pollInterval;
-            this.timeout = timeout;
-        
-        LOG.info("Wrapper initialized: Using max " + maxJobsActive +" jobs, pollInterval " + pollInterval + " ms, timeout " + timeout + " ms. \n");
-    }
 
     //GETTER SETTER
     public ZeebeClient getClient() {
@@ -89,6 +82,8 @@ public class updateableWorkerWrapper {
     //LOGIC
     public void startWorker(){
         try{
+            //remove me
+            
             
             worker = client
                 .newWorker()
@@ -101,7 +96,10 @@ public class updateableWorkerWrapper {
                 .timeout(timeout)
                 .open();
 
-            LOG.info("Opening Type:" + jobType + " with " + jobHandler + "\n");
+            LOG.info("Opening Type:" + jobType + " with " + jobHandler 
+                + "using:\n\t maxJobsActive = " + maxJobsActive 
+                + "\n\t pollInterval = " + pollInterval
+                + "\n\t timeout = " + timeout);
 
             //waitUntilSystemInput("exit");
         }
@@ -120,7 +118,6 @@ public class updateableWorkerWrapper {
         startWorker();
     }
 
-    @Subscribe
     public void updateConfig(ConfigUpdateEvent e){
         if(e.getPollInterval() != null) pollInterval = e.getPollInterval();
         if(e.getTimeout() != null) timeout = e.getTimeout();

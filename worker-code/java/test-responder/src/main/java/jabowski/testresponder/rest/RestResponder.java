@@ -1,12 +1,14 @@
 package jabowski.testresponder.rest;
 
-import java.util.Map;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jabowski.testresponder.entities.TypicalPayload;
 import jabowski.testresponder.utility.TestUtils;
 
 @RestController
@@ -15,6 +17,7 @@ public class RestResponder {
     private final int JSONMapSize = 64;
 
     //time to wait before responding
+    //TODO: refactor as env
     private final int waitTime = 500;
 
     @Autowired
@@ -26,11 +29,10 @@ public class RestResponder {
     }
 
     @GetMapping("/testJSON")
-    public Map<Integer, String> getTestJson() throws InterruptedException{
-        
+    public ResponseEntity<TypicalPayload> getTestJson() throws InterruptedException, IOException{
         TimeUnit.MILLISECONDS.sleep(waitTime);
 
-        return utils.getMap(JSONMapSize);
+        return ResponseEntity.ok(new TypicalPayload());
     }
     
 }

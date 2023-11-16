@@ -22,7 +22,7 @@ spec:
           value: {{ quote .Values.kubernetesClusterDomain}}
         - name: MAX_JOBS_ACTIVE
           value: {{ quote .Values.workerconfig.maxjobsactive}}
-        - name: POLL_INTERTVAL
+        - name: POLL_INTERVAL
           value: {{ quote .Values.workerconfig.pollinterval}}
         - name: TIMEOUT
           value: {{ quote .Values.workerconfig.timeout}}
