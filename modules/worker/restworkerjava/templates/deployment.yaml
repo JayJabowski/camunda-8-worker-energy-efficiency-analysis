@@ -21,11 +21,11 @@ spec:
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain}}
         - name: MAX_JOBS_ACTIVE
-          value: {{ quote .Values.workerconfig.maxjobsactive}}
+          value: {{ quote .Values.container.env.maxjobsactive}}
         - name: POLL_INTERVAL
-          value: {{ quote .Values.workerconfig.pollinterval}}
+          value: {{ quote .Values.container.env.pollinterval}}
         - name: TIMEOUT
-          value: {{ quote .Values.workerconfig.timeout}}
+          value: {{ quote .Values.container.env.timeout}}
         - name: TEST_RESPONDER_ADDRESS
           value: {{ quote .Values.container.env.testResponderAddress}}
 

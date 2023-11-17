@@ -5,15 +5,13 @@
 replicaCount: 1
 kubernetesClusterDomain: cluster.local
 
-#Load-Controller Config
-#TODO: Refactor this
-processname: benchmark_small
-sleepduration: 1
-instancecount: 100 
-
 container:
   env: 
     gatewayAddress: camunda-platform-zeebe-gateway.camunda8:26500
+    processName: benchmark_small_no_timer
+    sleepDuration: 1
+    instanceCount: 200 
+
 
 image:
   repository: jabowski/load-controller

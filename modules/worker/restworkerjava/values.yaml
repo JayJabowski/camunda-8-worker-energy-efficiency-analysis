@@ -5,15 +5,14 @@
 replicaCount: 1
 kubernetesClusterDomain: cluster.local
 
-workerconfig:
-  maxjobsactive: 16
-  pollinterval: 1
-  timeout: 30
-
 container:
   env: 
     gatewayAddress: camunda-platform-zeebe-gateway.camunda8:26500
     testResponderAddress: measuring-endpoints.measuring-endpoints.svc.cluster.local:8090
+    maxjobsactive: 64
+    pollinterval: 1
+    timeout: 30
+
 
 image:
   repository: jabowski/rest-worker-java
