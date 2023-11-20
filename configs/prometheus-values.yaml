@@ -1,3 +1,8 @@
+
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 24s
+
 rbac:
   create: true
 
