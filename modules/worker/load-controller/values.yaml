@@ -8,16 +8,16 @@ kubernetesClusterDomain: cluster.local
 container:
   env: 
     gatewayAddress: camunda-platform-zeebe-gateway.camunda8:26500
-    processName: benchmark_small_no_timer
-    sleepDuration: 1
-    instanceCount: 200 
-
+    processName: benchmark_small_single_timed
+    sleepDuration: 10 # interval between waves
+    parallelInstances : 1 # how many instances to start per wave
+    instanceCount: 10 # total number of started instances
 
 image:
   repository: jabowski/load-controller
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.1.2
+  tag: v0.1.3
 
 service:
   type: ClusterIP

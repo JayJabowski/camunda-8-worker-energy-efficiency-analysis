@@ -14,6 +14,7 @@ import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 public class LoadControllerApplication implements CommandLineRunner {
 
 	private int counter = 0;
+	private int parallel_counter = 0;
 
 	private final static Logger LOG = LoggerFactory.getLogger(LoadControllerApplication.class);
 
@@ -35,14 +36,20 @@ public class LoadControllerApplication implements CommandLineRunner {
 			||
 			config.getCount() < 0 // run indefinitely if env INSTANCE_COUNT set to -1
 			){
-			ProcessInstanceEvent event = 
+
+			while(parallel_counter < config.getParallelInstances()){
+
+				ProcessInstanceEvent event = 
 				client
-					.newCreateInstanceCommand()
-					.bpmnProcessId(config.getProcessName())
-					.latestVersion()
-					.send()
-					.join();
-			LOG.info("Started Instance "+ counter++ +" using "+event.getBpmnProcessId()+", "+event.getProcessInstanceKey());
+				.newCreateInstanceCommand()
+				.bpmnProcessId(config.getProcessName())
+				.latestVersion()
+				.send()
+				.join();
+				LOG.info("Started " + parallel_counter++ + " of " + config.getParallelInstances() +  " in run "+ (counter++ % config.getCount()) +" using "+event.getBpmnProcessId()+", "+event.getProcessInstanceKey());
+			}
+
+			parallel_counter = 0;
 
 			Thread.sleep(config.getSleepDuration() * 1000);
 		}

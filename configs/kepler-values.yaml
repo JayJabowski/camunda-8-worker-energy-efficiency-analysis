@@ -14,9 +14,5 @@
   # REDFISH_PROBE_INTERVAL_IN_SECONDS: "60"
   # REDFISH_SKIP_SSL_VERIFY: "true"
 
-serviceMonitor:
-  enabled: true
-  namespace: ""
-  interval: 24s
-  scrapeTimeout: 5s
-  labels: {}
+# serviceMonitor:
+#   interval: 15s

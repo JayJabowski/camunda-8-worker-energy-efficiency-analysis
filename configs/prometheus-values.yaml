@@ -1,7 +1,7 @@
 
-prometheus:
-  prometheusSpec:
-    scrapeInterval: 24s
+# prometheus:
+#  prometheusSpec:
+#    scrapeInterval: 15s
 
 rbac:
   create: true

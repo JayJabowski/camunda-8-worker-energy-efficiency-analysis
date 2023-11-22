@@ -28,6 +28,8 @@ spec:
           value: {{ quote .Values.container.env.timeout}}
         - name: TEST_RESPONDER_ADDRESS
           value: {{ quote .Values.container.env.testResponderAddress}}
+        - name: REQUEST_TIMEOUT
+          value: {{ quote .Values.container.env.requestTimeout}}
 
         name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

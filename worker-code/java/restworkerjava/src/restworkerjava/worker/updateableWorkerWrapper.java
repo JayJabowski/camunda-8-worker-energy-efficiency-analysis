@@ -19,23 +19,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class updateableWorkerWrapper {
 
-    @Value("${timeout:60000L}")
     private Long timeout; // time to keep a poll open
-
-    @Value("${POLL_INTERVAL:2}")
     private Long pollInterval; //poll interval in seconds
-    
-    @Value("${max.jobs.active:24}") 
     private Integer maxJobsActive; // maximum number of open jobs
 
     private JobHandler jobHandler; // Name of the class to be created as a handler eg "FetchJSONHandler.class"
     private JobWorker worker; // reference to actual worker
     private String jobType; 
 	private	ZeebeClient client;
+    private Long requestTimeout;
 
+    
     private final static Logger LOG = LoggerFactory.getLogger(updateableWorkerWrapper.class);
-
+    
     //GETTER SETTER
+    public Long getRequestTimeout() {
+        return requestTimeout;
+    }
+    public updateableWorkerWrapper setRequestTimeout(Long requestTimeout) {
+        this.requestTimeout = requestTimeout;
+        return this;
+    }
     public ZeebeClient getClient() {
         return client;
     }
@@ -82,8 +86,6 @@ public class updateableWorkerWrapper {
     //LOGIC
     public void startWorker(){
         try{
-            //remove me
-            
             
             worker = client
                 .newWorker()
@@ -93,13 +95,15 @@ public class updateableWorkerWrapper {
                 .pollInterval(
                     Duration.ofSeconds(pollInterval))
                 .maxJobsActive(maxJobsActive)
-                .timeout(timeout)
+                .timeout(timeout) // How long may the worker take to finish job
+                .requestTimeout(Duration.ofSeconds(requestTimeout)) // how long will the request be kept open, -1 to deactivate long polling
                 .open();
 
-            LOG.info("Opening Type:" + jobType + " with " + jobHandler 
-                + "using:\n\t maxJobsActive = " + maxJobsActive 
+            LOG.info("\n\tOpening Type: " + jobType + " with " + jobHandler 
+                + "\n\t maxJobsActive = " + maxJobsActive 
                 + "\n\t pollInterval = " + pollInterval
-                + "\n\t timeout = " + timeout);
+                + "\n\t timeout = " + timeout
+                + "\n\t requestTimeout = " + requestTimeout);
 
             //waitUntilSystemInput("exit");
         }
@@ -127,17 +131,6 @@ public class updateableWorkerWrapper {
 
         restartWorker();
     }
-
-    private static void waitUntilSystemInput(final String exitCode) {
-        try (final Scanner scanner = new Scanner(System.in)) {
-          while (scanner.hasNextLine()) {
-            final String nextLine = scanner.nextLine();
-            if (nextLine.contains(exitCode)) {
-              return;
-            }
-          }
-        }
-      }
     
 
 }
