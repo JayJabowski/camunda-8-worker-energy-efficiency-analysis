@@ -6,7 +6,7 @@ resource "helm_release" "load-controller" {
   count      = var.start_load_controller ? 1 : 0
 
   values = [
-    "${file("./modules/worker/load-controller/values.yaml")}"
+    "${file("./configs/load-controller-values.yaml")}"
   ]
 }
 
@@ -18,6 +18,6 @@ resource "helm_release" "restworkerjava" {
   count      = var.create_module ? 1 : 0
 
   values = [
-    "${file("./modules/worker/restworkerjava/values.yaml")}"
+    "${file("./configs/restworkerjava-values.yaml")}"
   ]
 }
