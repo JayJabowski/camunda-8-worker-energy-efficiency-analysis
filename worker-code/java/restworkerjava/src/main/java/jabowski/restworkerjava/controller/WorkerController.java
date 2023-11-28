@@ -10,6 +10,7 @@ import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.ZeebeClientBuilder;
 import io.camunda.zeebe.client.api.worker.JobHandler;
 import jabowski.restworkerjava.worker.updateableWorkerWrapper;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class WorkerController {
@@ -17,30 +18,25 @@ public class WorkerController {
     //holds the Worker-Config in use against the worker's hash
     Map<String,updateableWorkerWrapper> workers = new ConcurrentHashMap<String, updateableWorkerWrapper>();
     
-    private Integer maxJobsActive;
-    private Long timeout;
-    private Long pollInterval;
-    private Long requestTimeout;
+    @Value("${zeebe.client.broker.gatewayAddress:localhost:26500}") 
+    String gatewayAddress;
+    @Value("${config.timeout}") 
+    Long timeout; // time to keep a poll open
+    @Value("${config.pollinterval}") 
+    Long pollInterval; //poll interval in seconds
+    @Value("${config.maxjobsactive}") 
+    Integer maxJobsActive; // maximum number of open jobs
+    @Value("${config.requesttimeout}") 
+    Long requestTimeout; // how long to keep request open, -1 to deactivate long polling, 0 for zeebe default value
 
     ZeebeClient client;
 
     updateableWorkerWrapper wrapper;
 
-
-    public WorkerController(
-        @Value("${gateway.address:http://127.0.0.1:26500}") String gatewayAddress,
-        @Value("${timeout:60000}")  Long timeout, // time to keep a poll open
-        @Value("${poll.interval:2}") Long pollInterval, //poll interval in seconds
-        @Value("${max.jobs.active:24}") Integer maxJobsActive, // maximum number of open jobs
-        @Value("${request.timeout:0}") Long requestTimeout // how long to keep request open, -1 to deactivate long polling, 0 for zeebe default value
-        ){
+    @PostConstruct
+    public void init(){
         final ZeebeClientBuilder builder = ZeebeClient.newClientBuilder().gatewayAddress(gatewayAddress).usePlaintext();
         client = builder.build();
-
-        this.maxJobsActive = maxJobsActive;
-        this.pollInterval = pollInterval;
-        this.timeout = timeout;
-        this.requestTimeout = requestTimeout;
     }
 
     //Entry Point: Collect Job Type and Handler, add to Map and Start Worker
