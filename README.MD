@@ -59,6 +59,16 @@ s. [BPMN-Demo Readme](README-BPMN-Demo.md)
 **Grafana**
 `kubectl port-forward -n monitoring svc/kube-prometheus-stackr-grafana 8085:80`
 
+#### Web-Access
+
+Zugang zu den Camunda-Komponenten **Operate** und **Tasklist**: 
+**Username "demo"** 
+**Passwort "demo"**
+
+Zugang **Grafana**:
+**Username "admin"**
+**Passwort "prom-operator"** 
+
 ### Konfiguration
 
 Die Konfiguration der für die Messung relevanten Parameter erfolgt über die `values.yaml` Dateien (s. unten)
