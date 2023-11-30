@@ -42,3 +42,18 @@ variable "app-namespace" {
   type = string
   default = "camunda8"
 }
+
+variable "worker-namespace" {
+  type= string
+  default = "worker"
+}
+
+variable "docker-registry-namespace" {
+  type= string
+  default = "docker-registry"
+}
+
+variable "measuring-endpoints-namespace" {
+  type= string
+  default = "measuring-endpoints"
+}

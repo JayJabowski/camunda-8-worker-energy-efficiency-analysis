@@ -1,0 +1,25 @@
+# Default values for worker.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+kubernetesClusterDomain: cluster.local
+
+container:
+  env: 
+    gatewayAddress: camunda-platform-zeebe-gateway.camunda8:26500
+    processName: benchmark_small_single_timed
+    sleepDuration: 2 # interval between waves
+    parallelInstances : 5 # how many instances to start per wave
+    instanceCount: 10 # total number of started instances
+
+image:
+  repository: jabowski/load-controller
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: v0.1.4
+
+service:
+  type: ClusterIP
+  port: 8080
+

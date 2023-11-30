@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "kubernetes": "*.yaml",
+        "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json": "file:///home/jabowski/bpmn-demo-no-aws/configs/values.yaml"
+    },
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic"
+}

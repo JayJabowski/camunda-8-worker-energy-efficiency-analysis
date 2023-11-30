@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "measuring-endpoints.fullname" . }}-test-connection"
+  labels:
+    {{- include "measuring-endpoints.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "measuring-endpoints.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

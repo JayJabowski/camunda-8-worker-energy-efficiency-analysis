@@ -28,7 +28,7 @@ resource "helm_release" "prometheus" {
 
 
   values = [
-    "${file("./configs/values.yaml")}"
+    "${file("./configs/prometheus-values.yaml")}"
   ]
   timeout = 2000
   
