@@ -43,12 +43,6 @@ module "worker" {
   depends_on            = [kubernetes_namespace.worker-namespace, module.camunda8]
 }
 
-module "Docker-Registry" {
-  source        = "./modules/docker-registry"
-  namespace     = var.docker-registry-namespace
-  create_module = false
-}
-
 module "Measuring-Endpoints" {
   source        = "./modules/measuring-endpoints"
   namespace     = var.measuring-endpoints-namespace
