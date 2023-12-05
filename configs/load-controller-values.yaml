@@ -9,15 +9,15 @@ container:
   env: 
     gatewayAddress: camunda-platform-zeebe-gateway.camunda8:26500
     processName: benchmark_small_single_timed
-    sleepDuration: 10 # interval between waves
-    parallelInstances : 1 # how many instances to start per wave
+    sleepDuration: 2 # interval between waves
+    parallelInstances : 5 # how many instances to start per wave
     instanceCount: 10 # total number of started instances
 
 image:
   repository: jabowski/load-controller
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.1.3
+  tag: v0.1.4
 
 service:
   type: ClusterIP
