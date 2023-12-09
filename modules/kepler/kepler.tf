@@ -5,6 +5,10 @@ resource "helm_release" "kepler" {
   namespace = var.namespace
   count = var.create_module ? 1 : 0
 
+  values = [
+    "${file("./configs/kepler-values.yaml")}"
+  ]
+
   set {
     name = "serviceMonitor.enabled"
     value = true
