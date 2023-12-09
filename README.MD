@@ -12,10 +12,10 @@ Jede Komponente bestehender Systeme muss also auf ihre Effizienz hin überprüft
 ![UML-Komponentendiagramm](documentation/img/ComponentDiagram_v1.png)
 
 Damit das Fundament der Messumgebung eine gewisse Nähe zu Produktionsumgebungen hat, finden alle Messungen in einem Kubernetes-Cluster (umgesetzt mit k3s) auf einem Ubuntu-System statt. Um den Stromverbrauch der Worker zu erfassen, kommt Kepler zum Einsatz, exportiert an Prometheus und visualisiert in Grafana. 
-Die Prozessapplikation besteht aktuell aus zwei Komponenten - ``LoadController`` und ``restworkerjava``. ``LoadController`` erzeugt in gewissem Takt eine bestimmte Menge paralleler Instanzen eines Prozesses und generiert so Last, unter welcher ``restworkerjava``  dann gemessen werden kann.
+Die Prozessapplikation besteht aktuell aus zwei Komponenten - ``load-controller`` und ``restworkerjava``. ``load-controller`` erzeugt in gewissem Takt parallele Instanzen eines Prozesses und generiert so Last, unter welcher ``restworkerjava`` dann gemessen werden kann.
 
 `restworkerjava` stellt die Worker-Implementierung dar, die analysiert werden soll und deren Verbrauchswerte das Herz der Messungen sind. 
-In der aktuellen Konfiguration arbeitet der Worker `restworkerjava` Jobs vom Typ ``fetch-json`` ab, die `typical_payload.json` (entliehen aus dem Camunda-8-Benchmark Projekt) per REST anfragen und empfangen. Als Gegenpunkt der REST-Anfragen steht im gleichen Cluster der ``testResponder`` bereit, eine Spring-Applikation, die nach einer Verzögerung von 100ms das entsprechende JSON zurückschickt. 
+In der aktuellen Konfiguration arbeitet der Worker `restworkerjava` Jobs vom Typ ``fetch-json     `` ab, die `typical_payload.json` (entliehen aus dem Camunda-8-Benchmark Projekt) per REST anfragen und empfangen. Als Gegenpunkt der REST-Anfragen steht im gleichen Cluster der ``testResponder`` bereit, eine Spring-Applikation, die nach einer Verzögerung von 100ms das entsprechende JSON zurückschickt. 
 
 Im Fokus der Messungen stehen vier Parameter, mit denen das Verhalten der Worker konfiguriert werden kann:
 
@@ -59,9 +59,9 @@ s. [BPMN-Demo Readme](README-BPMN-Demo.md)
 **Grafana**
 `kubectl port-forward -n monitoring svc/kube-prometheus-stackr-grafana 8085:80`
 
-#### Web-Access
+#### Front-End-Access
 
-Zugang zu den Camunda-Komponenten **Operate** und **Tasklist**: 
+Zugang  **Operate** / **Tasklist**: 
 **Username "demo"** 
 **Passwort "demo"**
 
@@ -71,13 +71,13 @@ Zugang **Grafana**:
 
 ### Konfiguration
 
-Die Konfiguration der für die Messung relevanten Parameter erfolgt über die `values.yaml` Dateien (s. unten)
+Die Konfiguration der für die Messung relevanten Parameter erfolgt über `config/load-controller-values.yaml` und `configs/restworkerjava-values.yaml` (s. unten)
 
 #### Prozessmodelle
 
 Die auszuführenden Prozessmodelle müssen in Zeebe deployed sein und können dann im `LoadController` mittels Umgebungsvariable gesetzt werden.
 
-#### ``LoadController``
+#### LoadController
 
 Konfiguration über `configs/load-controller-values.yaml`
 
@@ -99,7 +99,7 @@ instanceCount: 10
 
 Veränderte Parameter können mittels `terraform apply` angewandt werden. Falls der `LoadController` ohne Änderung der Parameter erneut ausgeführt werden soll, einfach den Pod löschen und Kubernetes automatisch einen neuen erstellen lassen. Eine nutzerfreundlichere Implementierung zum Neustart soll in Zukunft nachgeliefert werden. 
 
-#### `restworkerjava`
+#### restworkerjava
 
 Konfiguration über `configs/restworkerjava-values.yaml`
 
