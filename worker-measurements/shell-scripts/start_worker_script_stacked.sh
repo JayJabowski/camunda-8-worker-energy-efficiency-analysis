@@ -10,9 +10,9 @@ init_measurements()
 
 reset_measurements(){
     echo "resetting cluster"
-    kubectl scale --replicas=0 deployment/load-controller -n worker
-    kubectl scale --replicas=0 deployment/restworkerjava -n worker
-    kubectl scale --replicas=0 deployment/test-responder -n measuring-endpoints
+    kubectl scale --replicas=1 deployment/load-controller -n worker
+    kubectl scale --replicas=1 deployment/restworkerjava -n worker
+    kubectl scale --replicas=1 deployment/test-responder -n measuring-endpoints
 }
 
 # usage
