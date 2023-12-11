@@ -13,7 +13,7 @@ resource "kubernetes_config_map" "scaphandre-config" {
   count = var.create_module ? 1 : 0
 
   data = {
-    "scaphandre-dashboard.json" = "${file("./configs/grafana-kubernetes-dashboard.json")}" 
+    "scaphandre-dashboard.json" = "${file("./grafana-dashboards/grafana-kubernetes-dashboard.json")}" 
   }
 }
 
