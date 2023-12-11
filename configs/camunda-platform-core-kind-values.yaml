@@ -51,3 +51,16 @@ elasticsearch:
       requests:
         storage: 15Gi
 
+## @extra PrometheusServiceMonitor configuration to configure a prometheus service monitor
+prometheusServiceMonitor:
+  ## @param prometheusServiceMonitor.enabled if true then a service monitor will be deployed, which allows an installed prometheus controller to scrape metrics from the deployed pods
+  enabled: true
+  ## @extra promotheuServiceMonitor.labels can be set to configure extra labels, which will be added to the servicemonitor and can be used on the prometheus controller for selecting the servicemonitors
+  labels:
+  ## @param prometheusServiceMonitor.labels.release
+    release: metrics
+  ## @param prometheusServiceMonitor.scrapeInterval can be set to configure the interval at which metrics should be scraped
+  # Should be *less* than 60s if the provided grafana dashboard is used, which can be found here https://github.com/camunda/zeebe/tree/main/monitor/grafana,
+  # otherwise it isn't able to show any metrics which is aggregated over 1 min.
+  scrapeInterval: 10s
+

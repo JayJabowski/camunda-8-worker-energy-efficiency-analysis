@@ -84,7 +84,7 @@ resource "kubernetes_config_map_v1" "bpmnmodel" {
 }
 
 resource "kubernetes_job_v1" "processstart" {
-  count = var.create_module ? 1 : 0
+  count = 0 // var.create_module ? 1 : 0
   depends_on = [ kubernetes_job_v1.bpmnmodeldeployment ]
   metadata {
     name = "processstart"
