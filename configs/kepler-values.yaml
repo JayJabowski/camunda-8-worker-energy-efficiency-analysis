@@ -14,5 +14,5 @@
   # REDFISH_PROBE_INTERVAL_IN_SECONDS: "60"
   # REDFISH_SKIP_SSL_VERIFY: "true"
 
-# serviceMonitor:
-#   interval: 15s
+serviceMonitor:
+   interval: 10s
