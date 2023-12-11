@@ -39,8 +39,8 @@ fi
 
 
 # create log name
-LOG_NAME_START="$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%T')-baseworkers=$BASE_WORKERS-count=$LOOP_COUNT-STARTS"
-LOG_NAME_STOP="$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%T')-baseworkers=$BASE_WORKERS-count=$LOOP_COUNT-STOPS"
+LOG_NAME_START="$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-baseworkers=$BASE_WORKERS-count=$LOOP_COUNT-STARTS"
+LOG_NAME_STOP="$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-baseworkers=$BASE_WORKERS-count=$LOOP_COUNT-STOPS"
 
 echo "using log names: $LOG_NAME_STOP $LOG_NAME_START"
 
