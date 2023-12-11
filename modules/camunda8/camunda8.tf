@@ -21,7 +21,7 @@ resource "helm_release" "console-worker" {
 }
 
 resource "kubernetes_job_v1" "bpmnmodeldeployment" {
-  count = var.create_module ? 1 : 0
+  count = 0 // var.create_module ? 1 : 0
   depends_on = [ kubernetes_config_map_v1.bpmnmodel, helm_release.camunda-platform, helm_release.console-worker ]
   metadata {
     name = "bpmndeployment"
