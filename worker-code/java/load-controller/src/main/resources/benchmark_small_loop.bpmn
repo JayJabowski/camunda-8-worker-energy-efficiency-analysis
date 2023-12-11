@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_02ctmia" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.16.0">
+  <bpmn:process id="benchmark_small" name="benchmark_small" isExecutable="true">
+    <bpmn:startEvent id="start">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=0" target="count" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_1swotv4</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="task1" name="GET /testJSON">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="fetch-json" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=count + 1" target="count" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1swotv4</bpmn:incoming>
+      <bpmn:incoming>Flow_08e89nv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dlixj9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1swotv4" sourceRef="start" targetRef="task1" />
+    <bpmn:endEvent id="Event_1lsm4sw">
+      <bpmn:incoming>Flow_1tmdeaj</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_102wmhj">
+      <bpmn:incoming>Flow_1dlixj9</bpmn:incoming>
+      <bpmn:outgoing>Flow_08e89nv</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1tmdeaj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1dlixj9" sourceRef="task1" targetRef="Gateway_102wmhj" />
+    <bpmn:sequenceFlow id="Flow_08e89nv" sourceRef="Gateway_102wmhj" targetRef="task1" />
+    <bpmn:sequenceFlow id="Flow_1tmdeaj" sourceRef="Gateway_102wmhj" targetRef="Event_1lsm4sw">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=count &gt; 100</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="benchmark_small">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start">
+        <dc:Bounds x="179" y="109" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ytg4oh_di" bpmnElement="task1">
+        <dc:Bounds x="281" y="87" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lsm4sw_di" bpmnElement="Event_1lsm4sw">
+        <dc:Bounds x="682" y="109" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_102wmhj_di" bpmnElement="Gateway_102wmhj" isMarkerVisible="true">
+        <dc:Bounds x="455" y="102" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1swotv4_di" bpmnElement="SequenceFlow_1swotv4">
+        <di:waypoint x="215" y="127" />
+        <di:waypoint x="281" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dlixj9_di" bpmnElement="Flow_1dlixj9">
+        <di:waypoint x="381" y="127" />
+        <di:waypoint x="455" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08e89nv_di" bpmnElement="Flow_08e89nv">
+        <di:waypoint x="480" y="152" />
+        <di:waypoint x="480" y="240" />
+        <di:waypoint x="331" y="240" />
+        <di:waypoint x="331" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tmdeaj_di" bpmnElement="Flow_1tmdeaj">
+        <di:waypoint x="505" y="127" />
+        <di:waypoint x="682" y="127" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
