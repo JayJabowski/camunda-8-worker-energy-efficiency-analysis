@@ -3,7 +3,7 @@
 START_TIMESTAMP=$1
 LOOP_COUNT=$2
 BASE_WORKERS=$3
-let SLEEPTIME=5
+let SLEEPTIME=180
 
 let WORKERS_STARTED=0
 
@@ -83,7 +83,7 @@ else
         add_time_to_log $LOG_NAME_STOP
         echo "Stopping Worker $WORKERS_STARTED at $(date)"
         kubectl scale --replicas=$(($BASE_WORKERS)) deployment/restworkerjava -n worker
-        sleep 5
+        sleep 120
 
     done
 
