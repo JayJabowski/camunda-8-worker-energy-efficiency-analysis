@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jabowski.testresponder.config.ResponderConfig;
 import jabowski.testresponder.entities.TypicalPayload;
 import jabowski.testresponder.utility.TestUtils;
 
@@ -16,12 +17,11 @@ public class RestResponder {
     //Size of Json Hashmap of random strings
     private final int JSONMapSize = 64;
 
-    //time to wait before responding
-    //TODO: refactor as env
-    private final int waitTime = 500;
-
     @Autowired
     TestUtils utils;
+
+    @Autowired
+    ResponderConfig config;
 
     @GetMapping("/testHello")
     public String getTestHello(){
@@ -30,7 +30,7 @@ public class RestResponder {
 
     @GetMapping("/testJSON")
     public ResponseEntity<TypicalPayload> getTestJson() throws InterruptedException, IOException{
-        TimeUnit.MILLISECONDS.sleep(waitTime);
+        TimeUnit.MILLISECONDS.sleep(config.getWaitTime());
 
         return ResponseEntity.ok(new TypicalPayload());
     }

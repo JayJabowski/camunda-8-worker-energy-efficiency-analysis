@@ -6,6 +6,6 @@ resource "helm_release" "measuring-endpoints" {
   count      = var.create_module ? 1 : 0
 
   values = [
-    "${file("./modules/measuring-endpoints/values.yaml")}"
+    "${file("./configs/test-responder-values.yaml")}"
   ]
 }
