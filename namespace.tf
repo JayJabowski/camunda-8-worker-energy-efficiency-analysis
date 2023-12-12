@@ -33,3 +33,10 @@ resource "kubernetes_namespace" "measuring-endpoints-namespace" {
   }
   depends_on = [ module.kind ]
 }
+
+resource "kubernetes_namespace" "load-controller-namespace" {
+  metadata {
+    name = var.load-controller-namespace
+  }
+  depends_on = [ module.kind ]
+}

@@ -1,10 +1,5 @@
 variable "namespace" {
   type    = string
-  default = "worker"
-}
-
-variable "load-controller-namespace" {
-  type    = string
   default = "load-controller"
 }
 

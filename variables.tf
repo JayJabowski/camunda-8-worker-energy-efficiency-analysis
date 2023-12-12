@@ -48,6 +48,11 @@ variable "worker-namespace" {
   default = "worker"
 }
 
+variable "load-controller-namespace" {
+  type= string
+  default = "load-controller"
+}
+
 variable "docker-registry-namespace" {
   type= string
   default = "docker-registry"

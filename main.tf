@@ -43,6 +43,14 @@ module "worker" {
   depends_on            = [kubernetes_namespace.worker-namespace, module.camunda8]
 }
 
+module "load-controller" {
+  source                = "./modules/load-controller"
+  namespace             = var.load-controller-namespace
+  create_module         = true
+  start_load_controller = true
+  depends_on            = [kubernetes_namespace.worker-namespace, module.camunda8]
+}
+
 module "Measuring-Endpoints" {
   source        = "./modules/measuring-endpoints"
   namespace     = var.measuring-endpoints-namespace
