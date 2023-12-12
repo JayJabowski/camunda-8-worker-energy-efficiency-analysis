@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_02ctmia" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.17.0">
-  <bpmn:process id="benchmark_small_loop" name="benchmark_small_loop" isExecutable="true">
+  <bpmn:process id="benchmark_small_loop_2000_v2" name="benchmark_small_loop_2000_v2" isExecutable="true">
     <bpmn:startEvent id="start">
       <bpmn:extensionElements>
         <zeebe:ioMapping>
@@ -24,7 +24,7 @@
     <bpmn:endEvent id="Event_1lsm4sw">
       <bpmn:incoming>Flow_1tmdeaj</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="Gateway_102wmhj" name="check count">
+    <bpmn:exclusiveGateway id="Gateway_102wmhj" name="check count" default="Flow_08e89nv">
       <bpmn:incoming>Flow_1dlixj9</bpmn:incoming>
       <bpmn:outgoing>Flow_08e89nv</bpmn:outgoing>
       <bpmn:outgoing>Flow_1tmdeaj</bpmn:outgoing>
@@ -32,14 +32,13 @@
     <bpmn:sequenceFlow id="Flow_1dlixj9" sourceRef="task1" targetRef="Gateway_102wmhj" />
     <bpmn:sequenceFlow id="Flow_08e89nv" name="loop back" sourceRef="Gateway_102wmhj" targetRef="task1">
       <bpmn:extensionElements />
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=count &lt;= 100</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1tmdeaj" name="count exceeded" sourceRef="Gateway_102wmhj" targetRef="Event_1lsm4sw">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=count &gt; 100</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=count &gt; 2000</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="benchmark_small_loop">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="benchmark_small_loop_2000_v2">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start">
         <dc:Bounds x="179" y="109" width="36" height="36" />
       </bpmndi:BPMNShape>
