@@ -13,9 +13,9 @@ EPOCH_CURRENT_TIME=$(date +%s)
 init_measurements()
 {
     echo "shutting down load-controller and test-responder, updating worker to $BASE_WORKERS"
-    kubectl scale --replicas=$BASE_WORKERS deployment/load-controller -n worker
+    kubectl scale --replicas=0 deployment/load-controller -n worker
     kubectl scale --replicas=$BASE_WORKERS deployment/restworkerjava -n worker
-    kubectl scale --replicas=$BASE_WORKERS deployment/test-responder -n measuring-endpoints
+    kubectl scale --replicas=1 deployment/test-responder -n measuring-endpoints
 }
 
 reset_measurements(){
@@ -82,7 +82,7 @@ else
         # stop worker
         add_time_to_log $LOG_NAME_STOP
         echo "Stopping Worker $WORKERS_STARTED at $(date)"
-        kubectl scale --replicas=$(($BASE_WORKERS)) deployment/restworkerjava -n worker
+        kubectl scale --replicas=$BASE_WORKERS deployment/restworkerjava -n worker
         sleep 120
 
     done
