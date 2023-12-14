@@ -13,14 +13,14 @@ EPOCH_CURRENT_TIME=$(date +%s)
 init_measurements()
 {
     echo "shutting down load-controller and test-responder, updating worker to $BASE_WORKERS"
-    kubectl scale --replicas=0 deployment/load-controller -n worker
+    kubectl scale --replicas=0 deployment/load-controller -n load-controller
     kubectl scale --replicas=$BASE_WORKERS deployment/restworkerjava -n worker
     kubectl scale --replicas=1 deployment/test-responder -n measuring-endpoints
 }
 
 reset_measurements(){
     echo "resetting cluster to 1/1/1"
-    kubectl scale --replicas=1 deployment/load-controller -n worker
+    kubectl scale --replicas=1 deployment/load-controller -n load-controller
     kubectl scale --replicas=1 deployment/restworkerjava -n worker
     kubectl scale --replicas=1 deployment/test-responder -n measuring-endpoints
 }
