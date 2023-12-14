@@ -61,7 +61,7 @@ else
     echo "Starting..."
 
     # main loop
-    while [ $LOAD_STARTED -lt $LOOP_COUNT ] 
+    while [ $LOAD_STARTED -le $LOOP_COUNT ] 
     do
 
         # start worker
