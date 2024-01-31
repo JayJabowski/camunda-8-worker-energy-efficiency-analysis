@@ -1,9 +1,0 @@
-apiVersion: v2
-appVersion: 2.8.1
-description: Fork from stable Docker Registry chart
-home: https://hub.docker.com/_/registry/
-icon: https://helm.melillo.me/docker-registry-logo.png
-name: docker-registry
-sources:
-- https://github.com/docker/distribution-library-image
-version: 1.9.9

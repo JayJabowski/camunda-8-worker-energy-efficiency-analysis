@@ -11,7 +11,7 @@ container:
     processName: benchmark_small_single_timed
     sleepDuration: 2 # interval between waves
     parallelInstances : 5 # how many instances to start per wave
-    instanceCount: 10 # total number of started instances
+    instanceCount: 0 # total number of started instances
 
 image:
   repository: jabowski/load-controller

@@ -5,34 +5,19 @@ module "camunda8" {
   depends_on    = [kubernetes_namespace.app-namespace]
 }
 
-module "scaphandre" {
-  source        = "./modules/scaphandre"
-  create_module = false
-  namespace     = var.measurment-namespace
-  depends_on    = [kubernetes_namespace.measurement-namespace]
-}
-
 module "grafana" {
   source        = "./modules/grafana"
   create_module = true
-  namespace     = var.measurment-namespace
+  namespace     = var.measurement-namespace
   depends_on    = [kubernetes_namespace.measurement-namespace]
 }
 
 module "kepler" {
   source        = "./modules/kepler"
-  namespace     = var.measurment-namespace
+  namespace     = var.measurement-namespace
   create_module = true
-  // set to true on some system, not sure if it works as intended
   use_emulation = false
   depends_on    = [module.grafana, kubernetes_namespace.measurement-namespace]
-}
-
-module "kind" {
-  source        = "./modules/kind"
-  create_module = false
-  set_kubecfg   = false
-  kube_config = var.kube_config
 }
 
 module "worker" {
