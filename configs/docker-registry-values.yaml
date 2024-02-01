@@ -1,7 +1,0 @@
-service:
-  type: NodePort
-  nodePort: 31000
-  targetPort: 5000
-persistence:
-  enabled: true
-  size: 5Gi
