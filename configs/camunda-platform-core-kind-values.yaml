@@ -20,6 +20,7 @@ identity:
 optimize:
   enabled: false
 
+
 # Reduce for Zeebe and Gateway the configured replicas and with that the required resources
 # to get it running locally
 zeebe:
@@ -32,9 +33,12 @@ zeebe-gateway:
   replicas: 1
 
 connectors:
-  enabled: true
+  enabled: false # not used in measurements
   inbound:
     mode: disabled
+
+
+
 
 # Configure elastic search to make it running for local development
 elasticsearch:

@@ -16,7 +16,7 @@ extraEnvVars:
 
 serviceMonitor:
    enabled: true
-   interval: 30s
+   interval: 10s
    labels:
     release: "kube-prometheus-stack"
     app: "kube-prometheus-stack"
