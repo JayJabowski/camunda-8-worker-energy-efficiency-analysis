@@ -6,11 +6,11 @@ START_TIMESTAMP=$1
 # Load-Curve
 
 SLEEPTIME=60 # interval between bursts in seconds
-burst_list=(0 0 1 2 4 8 16 32 48 64 96 128 192 256 ) # Stages of load generation, each corresponding to instances with 60J/min
+burst_list=( 1 2 4 8 12 16 20 24 28 32 0 0 0 0 0 0 ) # Stages of load generation, each corresponding to instances with 60J/min
 n=${#burst_list[@]} # Total number of steps (length of the array)
 
 # Zeebe
-PROCESS_NAME="load_generator_60j_in_60s"
+PROCESS_NAME="load_generator_8x60_parallel"
 ZEEBE_ADDRESS="127.0.0.1:26500"
 
 EPOCH_START_TIME=$(date -d "$START_TIMESTAMP" +%s)
@@ -65,6 +65,7 @@ else
 
     done
 
+    echo $PROCESS_NAME >> logs/load-test/$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-load-test-$n-stages
     echo $START_TIMESTAMP >> logs/load-test/$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-load-test-$n-stages 
     echo $(date) >> logs/load-test/$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-load-test-$n-stages 
 

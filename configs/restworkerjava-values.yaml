@@ -9,21 +9,22 @@ container:
   env: 
     gatewayAddress: camunda-platform-zeebe-gateway.camunda8:26500
     testResponderAddress: measuring-endpoints.measuring-endpoints.svc.cluster.local:8090
-    maxjobsactive: 32
-    pollinterval: 2 # seconds before polling again
-    timeout: 45
-    requestTimeout: 30 # how long to keep a request open
+    maxjobsactive: 1024
+    pollinterval: 5 # seconds before polling again
+    timeout: 60
+    requestTimeout: 60 # how long to keep a request open
 
 
 image:
   repository: jabowski/rest-worker-java
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.1.4
+  tag: v0.1.6.1
 
 service:
   type: ClusterIP
   port: 8080
+  targetPort: 8080
 
   
 

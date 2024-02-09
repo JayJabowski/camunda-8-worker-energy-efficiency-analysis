@@ -9,6 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import jabowski.restworkerjava.controller.WorkerController;
 import jabowski.restworkerjava.rest.RestCallApi;
+import jabowski.restworkerjava.service.JobCounterService;
 import jabowski.restworkerjava.worker.FetchJSONHandlerReactive;
 
 @SpringBootApplication
@@ -26,6 +27,7 @@ public class RestworkerjavaApplication{
 		LOG.info(reactiveActive + " " + blockingActive);
 		
 		RestCallApi api = ctx.getBean(RestCallApi.class);
+		JobCounterService counter = ctx.getBean(JobCounterService.class);
 	
 		/*
 		 * 
@@ -38,7 +40,7 @@ public class RestworkerjavaApplication{
 		if(/* reactiveActive == */true) 
 		{
 			LOG.info("Started reactive Worker");
-			ctx.getBean(WorkerController.class).initializeWorker("fetch-json", new FetchJSONHandlerReactive(api));
+			ctx.getBean(WorkerController.class).initializeWorker("fetch-json", new FetchJSONHandlerReactive(api, counter));
 		}
 	}
 
