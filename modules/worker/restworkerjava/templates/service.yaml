@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "restworkerjava.fullname" . }}
   labels:
-    {{- include "restworkerjava.labels" . | nindent 4 }}
+    app: restworkerjava
 spec:
   type: {{ .Values.service.type }}
   ports:

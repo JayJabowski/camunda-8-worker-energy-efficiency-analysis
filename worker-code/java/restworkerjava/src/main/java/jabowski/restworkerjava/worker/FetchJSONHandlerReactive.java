@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -12,6 +13,7 @@ import io.camunda.zeebe.client.api.worker.JobClient;
 import io.camunda.zeebe.client.api.worker.JobHandler;
 import jabowski.restworkerjava.entities.TypicalPayload;
 import jabowski.restworkerjava.rest.RestCallApi;
+import jabowski.restworkerjava.service.JobCounterService;
 import lombok.Getter;
 import lombok.Setter;
 import reactor.core.publisher.Flux;
@@ -26,12 +28,16 @@ public class FetchJSONHandlerReactive implements JobHandler {
 
     RestCallApi api;
 
-    public FetchJSONHandlerReactive(RestCallApi api){
+    JobCounterService counter;
+
+    public FetchJSONHandlerReactive(RestCallApi api, JobCounterService counter){
         this.api = api;
+        this.counter = counter;
     }
 
     @Override
     public void handle(JobClient client, ActivatedJob job) throws Exception {
+        counter.incrementJobsStarted();
         LOG.info("Invoke REST call "+ count + ": ");
 
         Flux<String> getJSONResponseFlux = WebClient.create()
@@ -49,6 +55,7 @@ public class FetchJSONHandlerReactive implements JobHandler {
                 .thenApply(jobResponse -> { 
                     
                     LOG.info("Sampling response " + count++ + ". Received: " + jobResponse);
+                    counter.incrementJobsFinished();
                     return jobResponse;
 
                     })

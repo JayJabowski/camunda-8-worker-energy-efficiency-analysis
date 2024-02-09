@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "restworkerjava.fullname" . }}
   labels:
-    {{- include "restworkerjava.labels" . | nindent 4 }}
+    app: restworkerjava
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -11,6 +11,10 @@ spec:
       app: restworkerjava
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8100"  # Use the correct port where your app is running
       labels:
         app: restworkerjava
     spec:
@@ -33,5 +37,9 @@ spec:
 
         name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        ports:
+          - name: http
+            containerPort: {{ .Values.service.targetPort }}
+            protocol: TCP
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources: {}

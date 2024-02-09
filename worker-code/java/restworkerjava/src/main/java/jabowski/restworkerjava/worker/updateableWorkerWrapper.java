@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.worker.JobHandler;
 import io.camunda.zeebe.client.api.worker.JobWorker;
+import io.camunda.zeebe.client.api.worker.JobWorkerMetrics;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 import jabowski.restworkerjava.events.ConfigUpdateEvent;
 import lombok.NoArgsConstructor;
 
@@ -86,11 +91,18 @@ public class updateableWorkerWrapper {
     //LOGIC
     public void startWorker(){
         try{
-            
+            final MeterRegistry meterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+            final JobWorkerMetrics metrics = JobWorkerMetrics
+                .micrometer()
+                .withMeterRegistry(meterRegistry)
+                .withTags(Tags.of("zeebe.client.worker.jobType", jobType, "zeebe.client.worker.name", jobType))
+                .build();
+
             worker = client
                 .newWorker()
                 .jobType(jobType)
                 .handler(jobHandler)
+                .metrics(metrics)
                 .name(jobType)
                 .pollInterval(
                     Duration.ofSeconds(pollInterval))
