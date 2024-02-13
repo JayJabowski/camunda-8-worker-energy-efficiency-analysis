@@ -19,7 +19,7 @@ EPOCH_START_TIME=$(date -d "$START_TIMESTAMP" +%s)
 EPOCH_CURRENT_TIME=$(date +%s)
 
 LOG_NAME=$0-$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')
-LOG_FOLDER="worker-measurements/shell-srcipts/logs/polling/"
+LOG_FOLDER="worker-measurements/shell-scripts/logs/polling/"
 BASE_PATH="/home/jabowski/bpmn-demo-no-aws/"
 
 # usage
@@ -40,6 +40,7 @@ add_time_to_log(){
 
 SAVED_PATH=$(echo $PWD)
 cd $BASE_PATH
+mkdir -p $LOG_FOLDER
 
 # wait until start
 let REMAINING_S_TO_START=$EPOCH_START_TIME-$EPOCH_CURRENT_TIME
@@ -73,7 +74,7 @@ else
             add_time_to_log $CURRENT_PI $CURRENT_RTO
             echo "$(date): Waiting $WAIT_INTERVAL Minutes..."
 
-            sleep $( expr $WAIT_INTERVAL * 60 )
+            sleep $( expr $WAIT_INTERVAL \* 60 )
 
         done
 
