@@ -1,8 +1,6 @@
 package jabowski.restworkerjava.controller;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +12,8 @@ import jakarta.annotation.PostConstruct;
 
 @Component
 public class WorkerController {
-
-    //holds the Worker-Config in use against the worker's hash
-    Map<String,updateableWorkerWrapper> workers = new ConcurrentHashMap<String, updateableWorkerWrapper>();
-    
-    @Value("${zeebe.client.broker.gatewayAddress:localhost:26500}") 
+   
+    @Value("${zeebe.client.broker.gatewayAddress}") 
     String gatewayAddress;
     @Value("${config.timeout}") 
     Long timeout; // time to keep a poll open
@@ -31,6 +26,7 @@ public class WorkerController {
 
     ZeebeClient client;
 
+    @Autowired
     updateableWorkerWrapper wrapper;
 
     @PostConstruct
@@ -39,33 +35,21 @@ public class WorkerController {
         client = builder.build();
     }
 
-    //Entry Point: Collect Job Type and Handler, add to Map and Start Worker
+    //Create and Start Worker
     public void initializeWorker(String jobType, JobHandler handler){
-        
-        saveWorker(jobType, handler).startWorker();
+
+        wrapper
+            .setJobHandler(handler)
+            .setJobType(jobType)
+            .setClient(client)
+            .setMaxJobsActive(maxJobsActive)
+            .setPollInterval(pollInterval)
+            .setTimeout(timeout)
+            .setRequestTimeout(requestTimeout);
+
+        wrapper.startWorker();
 
     }
 
-    //Save current config for job Type
-    private updateableWorkerWrapper saveWorker(String jobType, JobHandler handler){
-        updateableWorkerWrapper workerWrapper = createWorkerWrapper(jobType, handler);
-
-        workers.put(
-            jobType,
-            workerWrapper);
-        
-        return workerWrapper;
-    }
-
-    private updateableWorkerWrapper createWorkerWrapper(String jobType, JobHandler handler){
-        return new updateableWorkerWrapper()
-                .setJobHandler(handler)
-                .setJobType(jobType)
-                .setClient(client)
-                .setMaxJobsActive(maxJobsActive)
-                .setPollInterval(pollInterval)
-                .setTimeout(timeout)
-                .setRequestTimeout(requestTimeout);
-    }
     
 }
