@@ -50,6 +50,11 @@ then
     echo "Start Time invalid (delay = $REMAINING_S_TO_START). Aborting."
     exit 1
 else
+
+    # wait for start
+    echo "Waiting until $START_TIMESTAMP ($REMAINING_S_TO_START s)"
+    sleep $REMAINING_S_TO_START
+
     # main loop
     for((pi = 0; pi < n_pi; pi++)); do 
 
