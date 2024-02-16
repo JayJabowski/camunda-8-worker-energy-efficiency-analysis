@@ -26,6 +26,8 @@ spec:
           value: {{ quote .Values.sleepduration}}
         - name: TEST_RESPONDER_ADDRESS
           value: {{ quote .Values.container.env.testresponderaddress}}
+        - name: SEND_FULL_JSON_TO_ZEEBE
+          value: {{ quote .Values.container.env.sendfulljsontozeebe}}
 
         name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

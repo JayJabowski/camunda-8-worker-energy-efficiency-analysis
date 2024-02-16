@@ -13,13 +13,14 @@ container:
     pollinterval: 5 # seconds before polling again
     timeout: 60
     requestTimeout: 60 # how long to keep a request open
+    sendfulljsontozeebe: false # use full typical_payload.json as process variables or just single string
 
 
 image:
-  repository: jabowski/rest-worker-java
+  repository: jabowski/restworkerjava
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.1.6.1
+  tag: v0.1.7.2
 
 service:
   type: ClusterIP
