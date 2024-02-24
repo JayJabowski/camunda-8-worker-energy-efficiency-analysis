@@ -21,9 +21,3 @@ resource "kubernetes_namespace" "measuring-endpoints-namespace" {
     name = var.measuring-endpoints-namespace
   }
 }
-
-resource "kubernetes_namespace" "load-controller-namespace" {
-  metadata {
-    name = var.load-controller-namespace
-  }
-}

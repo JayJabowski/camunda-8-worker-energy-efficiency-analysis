@@ -5,8 +5,8 @@ module "camunda8" {
   depends_on    = [kubernetes_namespace.app-namespace]
 }
 
-module "grafana" {
-  source        = "./modules/grafana"
+module "prometheus" {
+  source        = "./modules/prometheus"
   create_module = true
   namespace     = var.measurement-namespace
   depends_on    = [kubernetes_namespace.measurement-namespace]
@@ -17,20 +17,12 @@ module "kepler" {
   namespace     = var.measurement-namespace
   create_module = true
   use_emulation = false
-  depends_on    = [module.grafana, kubernetes_namespace.measurement-namespace]
+  depends_on    = [module.prometheus, kubernetes_namespace.measurement-namespace]
 }
 
 module "worker" {
   source                = "./modules/worker"
   namespace             = var.worker-namespace
-  create_module         = true
-  start_load_controller = true
-  depends_on            = [kubernetes_namespace.worker-namespace, module.camunda8]
-}
-
-module "load-controller" {
-  source                = "./modules/load-controller"
-  namespace             = var.load-controller-namespace
   create_module         = true
   start_load_controller = true
   depends_on            = [kubernetes_namespace.worker-namespace, module.camunda8]

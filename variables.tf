@@ -33,12 +33,12 @@ variable "worker-namespace" {
   default = "worker"
 }
 
-variable "load-controller-namespace" {
-  type= string
-  default = "load-controller"
-}
-
 variable "measuring-endpoints-namespace" {
   type= string
   default = "measuring-endpoints"
+}
+
+variable "create-load-controller" {
+  type= bool
+  default = false
 }
