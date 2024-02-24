@@ -16,7 +16,6 @@ load_stages=( 2 12 24 ) # Stages of load generation,
 n=${#load_stages[@]} # Total number of steps (length of the array)
 
 # Load stages
-# MJA_LIST=( 1 4 1536 ) # Stages of load generation, 
 MJA_LIST=( 8 64 512 ) # Stages of load generation, 
 mja_num=${#load_stages[@]} # Total number of steps (length of the array)
 
@@ -53,8 +52,8 @@ burst_new_instance() {
 
     for ((i=0; i<$1; i++)); do
         
-        zbctl create instance $PROCESS_NAME --address $ZEEBE_ADDRESS --insecure >> /dev/null
-        
+        # zbctl create instance $PROCESS_NAME --address $ZEEBE_ADDRESS --insecure >> /dev/null
+        echo"."
     done
     echo "$(date):   ...started $1 Instances."
 
@@ -79,8 +78,8 @@ restart_worker(){ # $1 = mja
     # restart pod with new env-values
     kubectl -n worker rollout restart deployment restworkerjava
 
-    echo "Wait 2 Minutes..."
-    sleep 120
+    echo "Wait 1 Minute..."
+    sleep 60
 
 }
 
@@ -106,7 +105,7 @@ else
 
     for((mja_stage=0; mja_stage<mja_num; mja_stage++)); do
         
-        current_mja=${MJA_LIST[$mja_stage]}
+        current_mja=${MJA_LIST[$stage]}
 
         restart_worker $current_mja
     
@@ -119,7 +118,7 @@ else
 
             for((batchno=0; batchno<BATCH_RUNS; batchno++)); do
 
-                add_time_to_log $current_mja $loadnum
+                add_time_to_log
                 echo "Starting Run $( expr $batchno + 1)"
 
                 burst_new_instance $loadnum
@@ -130,12 +129,12 @@ else
 
             done
 
-            echo "$(date) Stage done. Cooling off for $COOLOFFTIME seconds"
+            echo "Stage done. Cooling off for $COOLOFFTIME seconds"
             sleep $COOLOFFTIME
 
         done
 
-        echo "waiting $MJARESETTIME seconds to reset"
+        echo "waiting 15 Minutes to reset"
         sleep $MJARESETTIME
 
     done
