@@ -16,6 +16,7 @@ load_stages=( 2 12 24 ) # Stages of load generation,
 n=${#load_stages[@]} # Total number of steps (length of the array)
 
 # Load stages
+# MJA_LIST=( 1 4 1536 ) # Stages of load generation, 
 MJA_LIST=( 8 64 512 ) # Stages of load generation, 
 mja_num=${#load_stages[@]} # Total number of steps (length of the array)
 
@@ -118,7 +119,7 @@ else
 
             for((batchno=0; batchno<BATCH_RUNS; batchno++)); do
 
-                add_time_to_log
+                add_time_to_log $current_mja $loadnum
                 echo "Starting Run $( expr $batchno + 1)"
 
                 burst_new_instance $loadnum

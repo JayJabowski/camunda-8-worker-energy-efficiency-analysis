@@ -8,7 +8,8 @@ BATCH_RUNS=$2
 
 SLEEPTIME=60 # interval between bursts in seconds
 
-burst_list=( 1 2 4 8 12 16 20 24 28 32 0 0 0 0 0 0 ) # Stages of load generation, each corresponding to instances with 60J/min
+# burst_list=( 1 2 4 8 12 16 20 24 28 32 0 0 0 0 0 0 ) # prev burst_list
+burst_list=( 2 4 8 12 16 20 24 0 0 0 )  # Stages of load generation, each corresponding to instances with 60J/min
 n=${#burst_list[@]} # Total number of steps (length of the array)
 
 # Zeebe
