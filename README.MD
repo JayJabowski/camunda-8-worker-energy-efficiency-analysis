@@ -19,8 +19,7 @@ This repository features three different parts relevant to the thesis:
 
 ## Architecture
 
-![[documentation/ComponentDiagram_v3.drawio.png]]
-
+![Cluster-Architecture](documentation/ComponentDiagram_v3.drawio.png)
 The worker implementation establishes a simple REST-Communication, inspired by the camunda-8-benchmark-project. 
 
 ## To do
