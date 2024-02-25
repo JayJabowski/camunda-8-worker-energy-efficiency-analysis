@@ -28,7 +28,7 @@ reset_measurements(){
 add_time_to_log(){ # add log name as $1
     let current_time=$(date +%s)
     let date_round_down=($current_time-$current_time%10)
-    echo $(date -d "@$date_round_down" +'%Y-%m-%d %T') >> logs/$1
+    echo $(date -d "@$date_round_down" +'%Y-%m-%d %T') >> logs/start-stop-idle/$1
 }
 
 # usage
@@ -39,10 +39,9 @@ fi
 
 
 # create log name
-LOG_NAME_START="$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-baseworkers=$BASE_WORKERS-count=$LOOP_COUNT-STARTS"
-LOG_NAME_STOP="$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-baseworkers=$BASE_WORKERS-count=$LOOP_COUNT-STOPS"
+LOG_NAME_START="$(date -d "$START_TIMESTAMP" +'%Y-%m-%d-%H-%M-%S')-baseworkers=$BASE_WORKERS-count=$LOOP_COUNT"
 
-echo "using log names: $LOG_NAME_STOP $LOG_NAME_START"
+echo "using log name: $LOG_NAME_START"
 
 let REMAINING_MS_TO_START=$EPOCH_START_TIME-$EPOCH_CURRENT_TIME
 
@@ -52,9 +51,8 @@ then
     exit 1
 else
     # create logs
-    mkdir -p logs
-    touch logs/$LOG_NAME_START
-    touch logs/$LOG_NAME_STOP
+    mkdir -p logs/start-stop-idle
+    touch logs/start-stop-idle/$LOG_NAME_START
 
     # start phase
     echo "starting at $START_TIMESTAMP in $REMAINING_MS_TO_START seconds"
@@ -80,7 +78,6 @@ else
         sleep $SLEEPTIME
 
         # stop worker
-        add_time_to_log $LOG_NAME_STOP
         echo "Stopping Worker $WORKERS_STARTED at $(date)"
         kubectl scale --replicas=$BASE_WORKERS deployment/restworkerjava -n worker
         sleep 120
